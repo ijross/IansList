@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+#db = DAL("sqlite://storage.sqlite")
 from datetime import datetime
 
 
@@ -9,7 +10,6 @@ def get_first_name():
     return name
 
 
-
 db.define_table('bboard',
                 Field('name'),
                 Field('user_id', db.auth_user),
@@ -17,6 +17,7 @@ db.define_table('bboard',
                 Field('email'),
                 Field('date_posted', 'datetime'),
                 Field('bbmessage', 'text'),
+                Field('image_file', 'upload')
                 )
 
 db.bboard.bbmessage.label = 'Message'
@@ -26,5 +27,4 @@ db.bboard.name.writable = False
 db.bboard.date_posted.writable = False
 db.bboard.user_id.default = auth.user_id
 db.bboard.user_id.writable = db.bboard.user_id.readable = False
-
 

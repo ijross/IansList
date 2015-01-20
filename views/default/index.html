@@ -9,7 +9,7 @@
 
 <ul>
 {{for p in posts:}}
-<li>Post by {{=p.name}}, posted on {{=p.date_posted}}</li>
+{{=LI(A(p.bbmessage, _href=URL("show", args=p.id)))}}
 {{pass}}
 </ul>
 

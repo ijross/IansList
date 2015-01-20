@@ -66,3 +66,87 @@ success!
 timestamp: 2015-01-13T09:41:35.576769
 ALTER TABLE bboard ADD user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE;
 success!
+timestamp: 2015-01-19T19:42:48.250149
+CREATE TABLE image(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title CHAR(512) UNIQUE,
+    file CHAR(512)
+);
+success!
+timestamp: 2015-01-19T19:48:11.505203
+ALTER TABLE image ADD image_file CHAR(512);
+success!
+timestamp: 2015-01-19T19:48:11.517194
+ALTER TABLE bboard ADD image_id INTEGER REFERENCES image (id) ON DELETE CASCADE;
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+timestamp: 2015-01-19T20:19:28.983655
+ALTER TABLE bboard ADD image_file CHAR(512);
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!

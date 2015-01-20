@@ -25,8 +25,13 @@ def add():
         # Successful processing.
         session.flash = T('Added')
         redirect(URL('default', 'index'))
+    
     return dict(form=form)
 
+def show():
+   bboard = db.bboard(request.args(0,cast=int) or redirect(URL('index')))
+
+   return dict(bboard=bboard)
 
 
 def user():

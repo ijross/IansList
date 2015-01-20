@@ -1,0 +1,7 @@
+{{extend 'layout.html'}}
+<h1>Post: {{=bboard.bbmessage}}</h1>
+
+<div style="text-align:center">
+<img width="200px"
+     src="{{=URL('download', args=bboard.image_file)}}" />
+</div>
