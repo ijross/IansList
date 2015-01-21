@@ -1,6 +1,12 @@
 {{extend 'layout.html'}}
 <h1>Post: {{=bboard.bbmessage}}</h1>
 
+<ul>
+   <li>User: {{=bboard.email}}, Posted on: {{=bboard.date_posted}}</li>
+   <li>Phone number: {{=bboard.phone}}</li>
+   <li>email: {{=bboard.email}}</li>
+</ul>
+
 <div style="text-align:center">
 <img width="200px"
      src="{{=URL('download', args=bboard.image_file)}}" />

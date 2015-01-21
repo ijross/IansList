@@ -14,8 +14,9 @@ def index():
     This index appears when you go to bboard/default/index . 
     """
     # We want to generate an index of the posts. 
-    posts = db().select(db.bboard.ALL)
-    return dict(posts=posts)
+    #posts = db().select(db.bboard.ALL)
+    grid = SQLFORM.grid(db.bboard)
+    return dict(grid=grid) 
 
 @auth.requires_login()
 def add():

@@ -4,18 +4,7 @@
 <h1>Welcome to IansList</h1>
 
 <h2>Listings:</h2>
-
-{{if len(posts) > 0:}}
-
-<ul>
-{{for p in posts:}}
-{{=LI(A(p.bbmessage, _href=URL("show", args=p.id)))}}
-{{pass}}
-</ul>
-
-{{else:}}
-There are no posts.
-{{pass}}
+{{=grid}}
 
 <p>
 {{=A('Add a post', _class='btn', _href=URL('default', 'add'))}}
