@@ -9,25 +9,14 @@
 ## - api is an example of Hypermedia API support and access control
 #########################################################################
 
+@auth.requires_login()
 def index():
     """
     This index appears when you go to bboard/default/index . 
     """
-    # We want to generate an index of the posts. 
-    #posts = db().select(db.bboard.ALL)
     grid = SQLFORM.grid(db.bboard)
     return dict(grid=grid) 
 
-@auth.requires_login()
-def add():
-    """Add a post."""
-    form = SQLFORM(db.bboard)
-    if form.process().accepted:
-        # Successful processing.
-        session.flash = T('Added')
-        redirect(URL('default', 'index'))
-    
-    return dict(form=form)
 
 def show():
    bboard = db.bboard(request.args(0,cast=int) or redirect(URL('index')))
