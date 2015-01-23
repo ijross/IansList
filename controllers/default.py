@@ -14,11 +14,92 @@ def index():
     """
     This index appears when you go to bboard/default/index . 
     """
-    grid = SQLFORM.grid(db.bboard)
-    return dict(grid=grid) 
+    q = db.bboard
+
+    def generate_del_button(row):
+        # If the record is ours, we can delete it.
+        b = ''
+        if auth.user_id == row.user_id:
+            b = A('Delete', _class='btn', _href=URL('default', 'delete', args=[row.id]))
+        return b
+
+    def generate_edit_button(row):
+        # If the record is ours, we can delete it.
+        b = ''
+        if auth.user_id == row.user_id:
+            b = A('Edit', _class='btn', _href=URL('default', 'edit', args=[row.id]))
+        return b
+
+    def shorten_post(row):
+        return row.bbmessage[:10] + '...'
+ 
+    links = [
+        dict(header='', body = generate_del_button),
+        dict(header='', body = generate_edit_button),
+        ]
+
+    if len(request.args) == 0:
+        # We are in the main index.
+        links.append(dict(header='Post', body = shorten_post))
+        db.bboard.bbmessage.readable = False
+
+    grid = SQLFORM.grid(q,
+        fields=[db.bboard.user_id, db.bboard.title, db.bboard.date_posted,
+                db.bboard.bbmessage],
+        editable=False, deletable=False,
+        links=links,
+        paginate=2,
+        )
 
 
-def show():
+    return dict(grid=grid)
+
+
+def view():
+    """View a post."""
+    # p = db(db.bboard.id == request.args(0)).select().first()
+    p = db.bboard(request.args(0)) or redirect(URL('default', 'index'))
+    form = SQLFORM(db.bboard, record=p, readonly=True)
+    # p.name would contain the name of the poster.
+    return dict(form=form)
+
+@auth.requires_login()
+def edit():
+    """View a post."""
+    # p = db(db.bboard.id == request.args(0)).select().first()
+    p = db.bboard(request.args(0)) or redirect(URL('default', 'index'))
+    if p.user_id != auth.user_id:
+        session.flash = T('Not authorized.')
+        redirect(URL('default', 'index'))
+    form = SQLFORM(db.bboard, record=p)
+    if form.process().accepted:
+        session.flash = T('Updated')
+        redirect(URL('default', 'view', args=[p.id]))
+    # p.name would contain the name of the poster.
+    return dict(form=form)
+
+@auth.requires_login()
+@auth.requires_signature()
+def delete():
+    """Deletes a post."""
+    p = db.bboard(request.args(0)) or redirect(URL('default', 'index'))
+    if p.user_id != auth.user_id:
+        session.flash = T('Not authorized.')
+        redirect(URL('default', 'index'))
+    db(db.bboard.id == p.id).delete()
+    redirect(URL('default', 'index'))
+
+@auth.requires_login()
+def add():
+    """Add a post."""
+    form = SQLFORM(db.bboard)
+    if form.process().accepted:
+        # Successful processing.
+        session.flash = T("Post added!")
+        redirect(URL('default', 'index'))
+    return dict(form=form) 
+
+def view():
    bboard = db.bboard(request.args(0,cast=int) or redirect(URL('index')))
 
    return dict(bboard=bboard)
